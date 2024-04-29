@@ -91,3 +91,24 @@ def adb_execute_command(serial, command):
     cmd = f'adb -s {serial} {command}'
     return exec_command(cmd)
 
+def add_device(intlt):
+    default_port = 5555  # 设置默认ADB端口
+    try:
+        if ':' in intlt:
+            ip, port = intlt.split(':')
+        else:
+            ip = intlt
+            port = default_port  # 如果未提供端口，则使用默认端口
+    except ValueError:
+        return "错误：提供的地址格式不正确。应为 IP:端口 或仅 IP。"
+
+    connect_command = f'adb connect {ip}:{port}'
+    result = exec_command(connect_command,True)
+
+    # 打印连接结果，这对于调试很有帮助
+    print(f"尝试连接到 {ip}:{port}...")
+    if 'cannot connect' in result['out'][0]:
+        return f"连接失败: {result['out'][0]}"
+
+    return "连接成功。"
+

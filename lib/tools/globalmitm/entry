@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+export GRPC_DNS_RESOLVER=native
+export PROXYPORT=${PROXYPORT:-8118}
+
+die () {
+        echo $@; exit 1
+}
+
+IP=${1:-}
+                if [ -z "${IP}" ]; then
+die "no device provided"
+                fi
+
+DNS=${DNS:-8.8.8.8}
+PDNS=$(((RANDOM % 10000) + 10000))
+
+if [ ! -z "${SOCKS5}" ] || [ ! -z "${HTTP}" ]; then
+PIDS=
+
+if [ ! -z "${SOCKS5}" ]; then
+PHTTP=$(((RANDOM % 10000) + 10000))
+UPSTREAM=http://127.0.0.1:${PHTTP}
+gost -L=${UPSTREAM} -F=socks5://${SOCKS5} >/dev/null 2>&1 &
+PIDS="$PIDS $!"
+DNS2SOCKS ${SOCKS5} ${DNS} 127.0.0.1:${PDNS} /q &
+PIDS="$PIDS $!"
+
+elif [ ! -z "${HTTP}" ]; then
+UPSTREAM=http://${HTTP}
+DNS2SOCKS ${HTTP} ${DNS} 127.0.0.1:${PDNS} /t /q &
+PIDS="$PIDS $!"
+
+else
+        die
+fi
+
+trap "kill -9 ${PIDS} 2>/dev/null" SIGINT
+if ! dig +time=3 google.com @127.0.0.1 -p ${PDNS}; then
+die "BAD PROXY (CANNOT RESOLVE THROUGH PROXY)"
+fi
+
+set -- "$@" --dns 127.0.0.1:${PDNS}
+set -- "$@" --mode upstream:${UPSTREAM}
+fi
+
+# common arguments
+set -- "$@" --web-host=0.0.0.0
+set -- "$@" --web-port=${WEBPORT:-1234}
+set -- "$@" --set block_global=false
+
+startmitm.py $@
