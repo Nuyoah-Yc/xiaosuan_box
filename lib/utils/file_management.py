@@ -4,7 +4,7 @@ from tkinter import filedialog
 
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
                              QComboBox, QListWidget, QPushButton)
-from lib.utils import show_devices,file_updata,adb_shell
+from lib.utils import show_devices,adb_shell
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -16,6 +16,8 @@ class MainWindow(QWidget):
         self.device_reth_one = '/'
 
         self.device_path_two = "/"
+        self.device_reth_two = '/'
+
         self.dst = '/data/local/tmp'
         # 主布局是水平布局
         self.layout = QHBoxLayout()
@@ -106,7 +108,6 @@ class MainWindow(QWidget):
         else:
             self.device_path_one = '/'
         self.update_device_files_one()
-
     def item_clicked_one(self, item):
         item_text = item.text()
         new_path = os.path.join(self.device_path_one, item_text.replace("\r", ""))
@@ -116,21 +117,20 @@ class MainWindow(QWidget):
 
         self.device_reth_one = new_path
         print(self.device_reth_one)
-
     def delete_file_one(self):
         try:
             adb_shell.exec_command(f'adb -s {self.device_name_one} shell rm -rf "{self.device_reth_one}"',True)
             print(f"成功删除")
             self.update_device_files_one()
+            self.update_device_files_two()
         except:
             print("删除失败:")
-
     def download_file_one(self):
         path = os.path.dirname(os.path.realpath(__file__))
         local_path = path.split("android_debugging")[0] + "android_debugging\download"
         try:
             adb_shell.exec_command(f'adb -s {self.device_name_one} pull "{self.device_reth_one}" "{local_path}"')
-            print(f"文件已下载到: {os.path.abspath(local_path)}")
+            return os.path.abspath(local_path) + "\\" + self.device_reth_one.split('/')[-1]
         except:
             print("下载失败:")
 
@@ -186,10 +186,11 @@ class MainWindow(QWidget):
 
     def copy_items(self):
         # 将左边选中的项复制到右边
-        current_items = self.list_widget_left.selectedItems()
-        if current_items:
-            for item in current_items:
-                self.list_widget_right.addItem(item.text())
+        path_parts = self.download_file_one()
+        adb_shell.adb_push(self.device_name_one, path_parts, self.device_path_two)
+        self.update_device_files_two()
+
+
 
     def update_file_one(self):
         root = tk.Tk()
@@ -205,8 +206,10 @@ class MainWindow(QWidget):
         self.update_device_files_one()
         self.update_device_files_two()
 
-if __name__ == "__main__":
-    app = QApplication([])
-    window = MainWindow()
-    window.show()
-    app.exec()
+def file_run():
+    apps = QApplication([])
+    windows = MainWindow()
+    windows.show()
+    apps.exec()
+
+file_run()
