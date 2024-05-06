@@ -31,7 +31,7 @@ class BoxApp(QWidget):
 
         self.executeButton = QPushButton("执行命令", self)
         self.executeButton.setGeometry(250, 370, 70, 30)
-        self.executeButton.setStyleSheet("background-color: rgb(152, 152, 152); border-radius: 5px;")
+        self.executeButton.setStyleSheet("border-radius: 5px;")
 
         self.hookButton = QPushButton("一键HOOK", self)
         self.hookButton.setGeometry(10, 420, 70, 30)
