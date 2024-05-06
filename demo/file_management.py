@@ -187,7 +187,7 @@ class MainWindow(QWidget):
     def copy_items(self):
         # 将左边选中的项复制到右边
         path_parts = self.download_file_one()
-        adb_shell.adb_push(self.device_name_one, path_parts, self.device_path_two)
+        adb_shell.adb_push(self.device_name_two, path_parts, self.device_path_two)
         self.update_device_files_two()
 
 

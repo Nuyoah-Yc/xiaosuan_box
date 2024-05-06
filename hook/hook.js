@@ -446,27 +446,19 @@ function hook7() {
 
 function hook8() {
     Java.perform(function () {
-        let OAuthLoginViewModel$handleAuthorizationSuccess$2 = Java.use("com.wikiloc.wikilocandroid.mvvm.oauth_login.viewmodel.OAuthLoginViewModel$handleAuthorizationSuccess$2");
-        OAuthLoginViewModel$handleAuthorizationSuccess$2["invoke"].implementation = function (obj) {
-            console.log(`OAuthLoginViewModel$handleAuthorizationSuccess$2.invoke is called: obj=${obj}`);
-
-            // 打印调用栈
-            console.log("Call Stack Trace:");
-            Java.use("android.util.Log").getStackTraceString(Java.use("java.lang.Exception").$new()).split("\n").forEach(function(line) {
-                console.log(line.trim());
-            });
-
-            let result = this["invoke"](obj);
-            console.log(`OAuthLoginViewModel$handleAuthorizationSuccess$2.invoke result=${result}`);
+        let GoogleOAuthFlow = Java.use("com.wikiloc.wikilocandroid.mvvm.oauth_login.model.GoogleOAuthFlow");
+        GoogleOAuthFlow["getUserCredentials"].implementation = function (data) {
+            console.log(`GoogleOAuthFlow.getUserCredentials is called: data=${data}`);
+            let result = this["getUserCredentials"](data);
+            console.log(`GoogleOAuthFlow.getUserCredentials result=${result}`);
             return result;
         };
     });
 }
 
 
-
 function main() {
-    console.log("下面为通用过root检测")
+    console.log("通用过root检测已经启用")
     bypassNativeFileCheck()
     bypassJavaFileCheck()
     setProp()

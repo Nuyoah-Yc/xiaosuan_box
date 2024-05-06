@@ -1,36 +1,35 @@
-#!/usr/bin/env python3
-#encoding=utf-8
 import os
-import argparse
-
 from os.path import isfile
 from lamda.client import *
 
-certfile = os.environ.get("CERTIFICATE", None)
-port = int(os.environ.get("PORT", 65000))
 
-android_path = os.path.join("~", ".android")
-abs_android_path = os.path.expanduser(android_path)
-f = "adbkey.pub"
+def pubkey(device,action):
+    certfile = os.environ.get("CERTIFICATE", None)
+    port = int(os.environ.get("PORT", 65000))
+    android_path = os.path.join("~", ".android")
+    abs_android_path = os.path.expanduser(android_path)
+    f = "adbkey.pub"  # 默认的公钥文件名
+    d = Device(device, port=port, certificate=certfile)
 
-argp = argparse.ArgumentParser()
+    if action == 'install':
+        cmd = 'install'
+        os.chdir(abs_android_path)
 
-argp.add_argument("action", nargs=1)
-argp.add_argument("device", nargs=1)
+        # 尝试生成公钥文件
+        pubkey = os.popen("adb pubkey adbkey").read()
+        open("adbkey.lamda", "w").write(pubkey)
 
-args = argp.parse_args()
+        f = ("adbkey.lamda", f)[isfile(f)]
 
-d = Device(args.device[0], port=port,
-                certificate=certfile)
-cmd = args.action[0]
+        call = getattr(d, "%s_adb_pubkey" % cmd)
+        exit(not call(f))
 
-os.chdir(abs_android_path)
+    elif action == 'uninstall':
+        cmd = 'uninstall'
+        os.chdir(abs_android_path)
+        pubkey = os.popen("adb pubkey adbkey").read()
+        open("adbkey.lamda", "w").write(pubkey)
+        f = ("adbkey.lamda", f)[isfile(f)]
 
-# try generate pubkey
-pubkey = os.popen("adb pubkey adbkey").read()
-open("adbkey.lamda", "w").write(pubkey)
-
-f = ("adbkey.lamda", f)[isfile(f)]
-
-call = getattr(d, "%s_adb_pubkey" % cmd)
-exit(not call(f))
+        call = getattr(d, "%s_adb_pubkey" % cmd)
+        exit(not call(f))
