@@ -1,47 +1,40 @@
-#!/usr/bin/env python3
-if __name__ == "__main__":
-    import os
-    import time
-    # import argparse
-    from lamda.client import *
+import os
+import time
+# import argparse
+from lamda.client import *
 
-    # cert = os.environ.get("CERTIFICATE", None)
-    # port = int(os.environ.get("PORT", 65000))
 
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("-d", type=str, dest="device",
-    #                         help="service ip address", required=True)
-    # parser.add_argument("-a", type=str, dest="package",
-    #                         help="target application Id", required=True)
-    # parser.add_argument("-p", type=str, dest="port", default=port,
-    #                         help="service port")
-    # parser.add_argument("-f", type=argparse.FileType("r"), dest="script",
-    #                         help="frida script", required=True)
-    # parser.add_argument("-delay", type=int, dest="delay", default=1.5,
-    #                         help="attach after delay")
-    # parser.add_argument("-cert", type=str, default=cert,
-    #                                help="ssl cert")
-    # args = parser.parse_args()
 
-    # d = Device(args.device, port=args.port, certificate=args.cert)
-    d = Device("192.168.120.231", port=65000, certificate=None)
+def run_frida():
+    cert = os.environ.get("CERTIFICATE", None)
+    port = int(os.environ.get("PORT", 65000))
+
+    d = Device("192.168.121.231", port=port, certificate=cert)
 
     token = d._get_session_token()
     print(token)
 
-    # pid = d.frida.spawn(args.package)
-    # d.frida.resume(pid)
-    #
-    # time.sleep(args.delay)
-    # session = d.frida.attach(pid)
-    # session.on("detached", print)
-    #
-    # sc = session.create_script(args.script.read())
-    #
-    # sc.on("destroyed", print)
-    # sc.on("message", print)
-    # sc.load()
-    # sc.eternalize()
-    # exit (0)
+    # 启动应用,并且获取pid
+    pid = d.frida.spawn("sa.friendimobile.vm")
+    d.frida.resume(pid)
 
-# frida -H 192.168.120.231:65000 -f sa.friendimobile.vm -l hook.js --token zdfk920p1ygwsl5x
+
+    # time.sleep(0.5)
+    session = d.frida.attach(pid)
+    session.on("detached", print)
+
+    path = os.path.dirname(os.path.realpath(__file__))
+    local_path = path.split("xiaosuan_box")[0] + "xiaosuan_box\hook\hook.js"
+
+    hook_js = open(local_path,encoding='utf-8').read()
+
+    sc = session.create_script(hook_js)
+
+    sc.on("destroyed", print)
+    sc.on("message", print)
+    sc.load()
+    sc.eternalize()
+    exit (0)
+
+
+run_frida()

@@ -33,3 +33,7 @@ def pubkey(device,action):
 
         call = getattr(d, "%s_adb_pubkey" % cmd)
         exit(not call(f))
+
+
+
+pubkey('192.168.121.213','install')

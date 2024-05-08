@@ -190,8 +190,6 @@ class MainWindow(QWidget):
         adb_shell.adb_push(self.device_name_two, path_parts, self.device_path_two)
         self.update_device_files_two()
 
-
-
     def update_file_one(self):
         root = tk.Tk()
         root.withdraw()
@@ -212,4 +210,4 @@ def file_run():
     windows.show()
     apps.exec()
 
-file_run()
+# file_run()

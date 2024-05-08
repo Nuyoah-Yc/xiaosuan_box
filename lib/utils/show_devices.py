@@ -79,3 +79,12 @@ def show_devices():
 
     return devices_list
 
+
+
+def button_back(device_id):
+    adb_shell.exec_command('adb -s {} shell input keyevent KEYCODE_BACK'.format(device_id),True)
+def button_home(device_id):
+    adb_shell.exec_command('adb -s {} shell input keyevent KEYCODE_HOME'.format(device_id),True)
+def button_recent(device_id):
+    adb_shell.exec_command('adb -s {} shell input keyevent KEYCODE_APP_SWITCH'.format(device_id),True)
+
