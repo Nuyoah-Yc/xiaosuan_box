@@ -37,4 +37,4 @@ def run_frida():
     exit (0)
 
 
-run_frida()
+# run_frida()

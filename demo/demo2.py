@@ -1,7 +1,7 @@
 import os
 import sys
 from tkinter import filedialog
-
+from multiprocessing import Process
 from PIL._tkinter_finder import tk
 from PyQt6.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QFrame,
                              QListWidget, QHBoxLayout, QVBoxLayout, QGroupBox, QLineEdit, QDialog, QComboBox)
@@ -9,7 +9,7 @@ from lib.utils import adb_shell, show_devices
 # from lib.tools import fridarpc
 from lib.scrcpy import scrcpy
 
-class FileSystem(QWidget):
+class FileSystem(QDialog):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.device_name_one = ""
@@ -237,6 +237,7 @@ class BoxApp(QWidget):
         self.fileSystemDialog = None
         self.devices = ''
 
+
         self.setWindowTitle('小算盒子')
         self.setFixedSize(1200, 600)
 
@@ -315,7 +316,7 @@ class BoxApp(QWidget):
         buttonBox.addWidget(statusBox)
 
         self.setLayout(mainLayout)
-
+        self.scan()
 
     def scan(self):
         self.listlabel.clear()
@@ -334,10 +335,8 @@ class BoxApp(QWidget):
         self.scan()
 
     def show_file_system(self):
-        if self.fileSystemDialog is None:  # 创建对话框实例，如果它还不存在
-            self.fileSystemDialog = FileSystem(self)
-        self.fileSystemDialog.show()
-        # pass
+        dialog = FileSystem(self)
+        dialog.exec()
 
     def menuButtons(self):
         show_devices.button_recent(self.devices)
