@@ -62,7 +62,23 @@ def get_device_info(device_id):
             a['Root状态'] = f'未Root'
     except:
         a['Root状态'] = f'无法检查Root状态。'
+
+    # 获取lamda状态
+    try:
+        lamda_output1 = adb_shell.exec_command(f"adb -s {device_id} shell ls /data/local/tmp/server/bin/launch.sh",True)
+        lamda_output2 = adb_shell.exec_command(f'adb -s {device_id} shell "ps -ef | grep lamda"',True)
+        print(len(lamda_output2['out'][0]))
+        if len(lamda_output2['out'][0]) <= 77:
+            print('未运行')
+        if '/tmp/server/bin/launch.sh' in lamda_output1['out'][0]:
+            print('lamda存在')
+
+    except:
+        print('111')
+
+
     return a
+
 
 def show_devices():
     """

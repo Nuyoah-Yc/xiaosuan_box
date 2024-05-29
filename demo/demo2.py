@@ -119,7 +119,7 @@ class FileSystem(QDialog):
             new_path = new_path[:-1]
 
         self.device_reth_one = new_path
-        print(self.device_reth_one)
+        # print(self.device_reth_one)
     def delete_file_one(self):
         try:
             adb_shell.exec_command(f'adb -s {self.device_name_one} shell rm -rf "{self.device_reth_one}"',True)

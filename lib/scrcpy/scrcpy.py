@@ -6,6 +6,10 @@ def start_scrcpy(serial, options="--no-audio"):
     try:
         # 使用subprocess.run启动scrcpy，capture_output=True来捕获输出
         # subprocess.run(command, capture_output=True, text=True, check=True)
-        adb_shell.exec_command(command,)
+        adb_shell.exec_command(command,True)
     except:
         print("Failed to start scrcpy.")
+
+
+
+# start_scrcpy("8KB0223225000457")

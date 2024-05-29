@@ -445,15 +445,11 @@ function hook7() {
 
 
 function hook8() {
-    Java.perform(function () {
-        let GoogleOAuthFlow = Java.use("com.wikiloc.wikilocandroid.mvvm.oauth_login.model.GoogleOAuthFlow");
-        GoogleOAuthFlow["getUserCredentials"].implementation = function (data) {
-            console.log(`GoogleOAuthFlow.getUserCredentials is called: data=${data}`);
-            let result = this["getUserCredentials"](data);
-            console.log(`GoogleOAuthFlow.getUserCredentials result=${result}`);
-            return result;
-        };
-    });
+    let FidoNativeAppApiChimeraService = Java.use("com.google.android.gms.fido.api.nativeapp.FidoNativeAppApiChimeraService");
+    FidoNativeAppApiChimeraService["a"].implementation = function (afisVar, getServiceRequest) {
+        console.log(`FidoNativeAppApiChimeraService.a is called: afisVar=${afisVar}, getServiceRequest=${getServiceRequest}`);
+        this["a"](afisVar, getServiceRequest);
+    };
 }
 
 
@@ -469,10 +465,10 @@ function main() {
     // hook3();
     // hook4();
     // hook5();
-    // hook6();
+    hook6();
     // hook7();
     // hook8();
 }
 
 
-setImmediate(main);
+main()

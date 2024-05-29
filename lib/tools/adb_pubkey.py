@@ -36,4 +36,4 @@ def pubkey(device,action):
 
 
 
-pubkey('192.168.121.213','install')
+pubkey('192.168.121.35','install')
