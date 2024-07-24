@@ -1,0 +1,20 @@
+
+syntax = "proto2";
+
+message SkuDetailsRequest {
+  optional uint32 field_1 = 1;
+  optional string field_2 = 2;
+  optional string field_3 = 3;
+  repeated string field_4 = 4;
+  optional uint32 field_6 = 6;
+  message Field_7 {
+    optional string field_7_1 = 1;
+  }
+  optional Field_7 field_7 = 7;
+  message Field_10 {
+    optional string field_10_1 = 1;
+    optional string field_10_2 = 2;
+    optional uint32 field_10_3 = 3;
+  }
+  repeated Field_10 field_10 = 10;
+}

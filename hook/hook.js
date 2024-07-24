@@ -255,78 +255,6 @@ function bypassShellCheck() {
 
 function hook1() {
     Java.perform(function () {
-        var AlertDialogBuilder = Java.use('androidx.appcompat.app.AlertDialog$Builder');
-
-        AlertDialogBuilder.setMessage.overload('java.lang.CharSequence').implementation = function (message) {
-            console.log("Original message: " + message);
-
-            message = Java.use('java.lang.String').$new("Hello from Frida!!!!!!!!!!!!!");
-            var result = this.setMessage(message);
-
-            return result;
-        };
-    });
-}
-
-function hook2() {
-    Java.perform(function () {
-        var SplashScreenActivity = Java.use("ticketek.com.au.ticketek.ui.splashscreen.SplashScreenActivity");
-
-        SplashScreenActivity.u0.implementation = function (str) {
-            console.log("u0 called with: " + str);
-
-            // Print the Java stack trace
-            console.log(Java.use("android.util.Log").getStackTraceString(Java.use("java.lang.Exception").$new()));
-
-            // Call the original implementation
-            var result = this.u0.apply(this, arguments);
-
-            return result;
-        };
-    });
-}
-
-
-function hook3() {
-    Java.perform(function () {
-        // Hook 'Thread' 类的 'setDefaultUncaughtExceptionHandler' 方法
-        // var Thread = Java.use('java.lang.Thread');
-        // Thread.setDefaultUncaughtExceptionHandler.implementation = function (handler) {
-        //     // 当 'setDefaultUncaughtExceptionHandler' 被调用时，打印 handler 对象
-        //     console.log('setDefaultUncaughtExceptionHandler called with handler: ' + handler.$className);
-        //     // 继续执行原始的 'setDefaultUncaughtExceptionHandler' 方法
-        //     return this.setDefaultUncaughtExceptionHandler(handler);
-        // };
-
-        // Hook 'Thread$UncaughtExceptionHandler' 接口的 'uncaughtException' 方法
-        var UncaughtExceptionHandler = Java.use('java.lang.Thread$UncaughtExceptionHandler');
-        UncaughtExceptionHandler.uncaughtException.implementation = function (thread, exception) {
-            // 当 'uncaughtException' 被调用时，打印线程信息和异常信息
-            console.log('uncaughtException called on thread: ' + thread + ' with exception: ' + exception);
-            // 打印异常的消息内容
-            console.log('Exception message: ' + exception.getMessage());
-            // 打印异常的堆栈跟踪
-            console.log('Exception stack trace: ' + Java.use('android.util.Log').getStackTraceString(exception));
-            // 继续执行原始的 'uncaughtException' 方法
-            return this.uncaughtException(thread, exception);
-        };
-
-        // Hook 'Process' 类的 'killProcess' 方法
-        var Process = Java.use('android.os.Process');
-        Process.killProcess.implementation = function (pid) {
-            // 当 'killProcess' 被调用时，打印进程ID
-            console.log('killProcess called with PID: ' + pid);
-            // 打印当前的调用栈信息
-            console.log('Call stack:\n' + Java.use('android.util.Log').getStackTraceString(Java.use('java.lang.Exception').$new()));
-            // 继续执行原始的 'killProcess' 方法
-            return this.killProcess(pid);
-        };
-    });
-
-}
-
-function hook4() {
-    Java.perform(function () {
         var RuntimeInit = Java.use('com.android.internal.os.RuntimeInit');
         var KillApplicationHandler = Java.use('com.android.internal.os.RuntimeInit$KillApplicationHandler');
         var Log = Java.use('android.util.Log');
@@ -356,27 +284,8 @@ function hook4() {
 
 }
 
-function hook5() {
-    Java.perform(function () {
-        // 定位到 n5 类
-        var n5Class = Java.use('sa.virginmobile.vm.util.n5');
 
-        // Hook n5.e 方法，始终返回false以绕过root检测
-        n5Class.e.implementation = function (context) {
-            console.log('Root detection check bypassed');
-            return false; // 返回false表示未检测到root
-        };
-
-        // Hook n5.d 方法，始终返回false以绕过debug模式检测
-        // n5Class.d.implementation = function (context) {
-        //     console.log('Debug mode detection check bypassed');
-        //     return false; // 返回false表示未检测到debug模式
-        // };
-    });
-}
-
-
-function hook6() {
+function hook2() {
     Interceptor.attach(Module.findExportByName("libc.so", "open"), {
         onEnter: function (args) {
             // 读取原始路径
@@ -406,50 +315,191 @@ function hook6() {
     });
 }
 
-function hook7() {
+
+function hook3() {
     Java.perform(function () {
-        var Activity = Java.use("com.cherrypicks.hsbcpayme.view.a$b");  // 使用内部类路径
+        console.log("Starting script...");
 
-        // 重写 onReceive 方法
-        Activity.onReceive.implementation = function (context, intent) {
-            console.log("Broadcast Received: " + intent.getAction());
+        // 获取 Build 类
+        var Build = Java.use("android.os.Build");
 
-            // 检查 intent 和 action
-            if (intent !== null && intent.getAction() !== null) {
-                var action = intent.getAction();
+        // 钩住 Build 类的 TAGS 字段
+        var TAGSField = Build.class.getDeclaredField("TAGS");
+        TAGSField.setAccessible(true);
 
-                // 检查是否是我们关心的特定行动
-                if (action.equals(Java.use("yrhcxcuj.aj").a(3196))) {
-                    console.log("Detected target action: " + action);
 
-                    // 检查是否报告了 Frida 的存在
-                    if (intent.hasExtra("ARGUMENT_FRIDA_DETECTED")) {
-                        var isFridaDetected = intent.getBooleanExtra("ARGUMENT_FRIDA_DETECTED", false);
-                        console.log("Frida Detected Flag: " + isFridaDetected);
+        // 打印原始 TAGS 字段的值
+        console.log("Original TAGS: " + Build.TAGS.value);
 
-                        // 如果检测到 Frida，修改结果避免触发安全操作
-                        if (isFridaDetected) {
-                            console.log("Frida detection broadcast received, ignoring it.");
-                            return;  // 不执行 m7() 和其他任何操作
-                        }
-                    }
-                }
-            }
+        // 修改 TAGS 字段的值
+        // TAGSField.set(null, "custom_tags");
 
-            // 原始方法调用
-            this.onReceive(context, intent);
-        };
+        // 验证修改是否成功
+        // console.log("Modified TAGS: " + Build.TAGS.value);
     });
 
 }
 
+function hook4() {
+    // 加载 Frida 模块
+    Java.perform(function () {
+        let t = Java.use("com.paytmbank.walletnew.utilitycommon.t");
+        t["Z"].implementation = function (context) {
+            console.log(`t.Z is called: context=${context}`);
+            let result = this["Z"](context);
+            console.log(`t.Z result=${result}`);
+            return false;
+        };
+    });
+}
 
-function hook8() {
-    let FidoNativeAppApiChimeraService = Java.use("com.google.android.gms.fido.api.nativeapp.FidoNativeAppApiChimeraService");
-    FidoNativeAppApiChimeraService["a"].implementation = function (afisVar, getServiceRequest) {
-        console.log(`FidoNativeAppApiChimeraService.a is called: afisVar=${afisVar}, getServiceRequest=${getServiceRequest}`);
-        this["a"](afisVar, getServiceRequest);
-    };
+function hook5() {
+    Java.perform(function () {
+        let PaytmActivity = Java.use("net.one97.paytm.activity.PaytmActivity");
+        let Log = Java.use("android.util.Log");
+        let Exception = Java.use("java.lang.Exception");
+
+        PaytmActivity["doIntegrityChecks"].implementation = function () {
+            console.log(`PaytmActivity.doIntegrityChecks is called`);
+            console.log(Log.getStackTraceString(Exception.$new()));
+            // Call the original method if needed
+            // this["doIntegrityChecks"]();
+
+
+        };
+    });
+}
+
+function hook6() {
+    Java.perform(function () {
+        var LliClass = Java.use('lli');
+        var lkgClass = Java.use('lkg');
+        var BundleClass = Java.use('android.os.Bundle');
+
+        lkgClass.f.overload('atkz', 'aqnj', 'gwt', 'gvf').implementation = function (atkzArg, aqnjArg, gwtArg, gvfArg) {
+            console.log('f method called with arguments:');
+            console.log('atkz: ' + atkzArg);
+            console.log('aqnj: ' + aqnjArg);
+            console.log('gwt: ' + gwtArg);
+            console.log('gvf: ' + gvfArg);
+
+            console.log('atkz details: ' + atkzArg);
+            var atjjClass = Java.use('atjj');
+            if (atkzArg.$className === 'atjj') {
+                var atjjObject = Java.cast(atkzArg, atjjClass);
+                printAtjjDetails(atjjObject, 0);
+            }
+
+            var aqnjClass = Java.use('aqnj');
+            var aqnjObject = Java.cast(aqnjArg, aqnjClass);
+            var aqnjFields = aqnjClass.class.getDeclaredFields();
+            for (var i = 0; i < aqnjFields.length; i++) {
+                var field = aqnjFields[i];
+                field.setAccessible(true);
+                console.log('aqnj field: ' + field.getName() + ' = ' + field.get(aqnjObject));
+            }
+
+            // 检查 gwt 对象的类名并进行强制转换
+            console.log('gwt details: ' + gwtArg);
+            console.log('gwt class: ' + gwtArg.$className);
+            try {
+                var gwtClass = Java.use(gwtArg.$className);
+                var gwtObject = Java.cast(gwtArg, gwtClass);
+                var gwtFields = gwtClass.class.getDeclaredFields();
+                for (var i = 0; i < gwtFields.length; i++) {
+                    var field = gwtFields[i];
+                    field.setAccessible(true);
+                    console.log('gwt field: ' + field.getName() + ' = ' + field.get(gwtObject));
+                }
+                var gwtMethods = gwtClass.class.getDeclaredMethods();
+                for (var i = 0; i < gwtMethods.length; i++) {
+                    var method = gwtMethods[i];
+                    console.log('gwt method: ' + method.getName());
+                }
+            } catch (e) {
+                console.log('Error casting gwt: ' + e);
+            }
+
+            var gvfClass = Java.use('gvf');
+            var gvfObject = Java.cast(gvfArg, gvfClass);
+            var gvfFields = gvfClass.class.getDeclaredFields();
+            for (var i = 0; i < gvfFields.length; i++) {
+                var field = gvfFields[i];
+                field.setAccessible(true);
+                console.log('gvf field: ' + field.getName() + ' = ' + field.get(gvfObject));
+            }
+
+            var result = this.f(atkzArg, aqnjArg, gwtArg, gvfArg);
+            console.log('f method result: ' + result);
+
+            return result;
+        };
+
+        LliClass.c.implementation = function (s, bundle0, aqnj0) {
+            console.log('c method called with arguments:');
+            console.log('String s: ' + s);
+            console.log('Bundle bundle0: ' + bundle0);
+            console.log('aqnj aqnj0: ' + aqnj0);
+
+            console.log('Bundle bundle0 contents:');
+            var bundleKeys = bundle0.keySet().toArray();
+            for (var i = 0; i < bundleKeys.length; i++) {
+                var key = bundleKeys[i];
+                console.log('bundle0[' + key + ']: ' + bundle0.get(key));
+            }
+
+            console.log('aqnj aqnj0 contents:');
+            var aqnjClass = Java.use('aqnj');
+            var aqnjObject = Java.cast(aqnj0, aqnjClass);
+            var aqnjFields = aqnjClass.class.getDeclaredFields();
+            for (var i = 0; i < aqnjFields.length; i++) {
+                var field = aqnjFields[i];
+                field.setAccessible(true);
+                console.log('aqnj0 field: ' + field.getName() + ' = ' + field.get(aqnjObject));
+            }
+
+            var result = this.c(s, bundle0, aqnj0);
+            console.log('c method result: ' + result);
+            return result;
+        };
+
+        function printAtjjDetails(atjjObject, depth) {
+            if (depth > 10) {
+                console.log('Max depth reached, stopping recursion.');
+                return;
+            }
+
+            var atjjFields = atjjObject.class.getDeclaredFields();
+            for (var i = 0; i < atjjFields.length; i++) {
+                var field = atjjFields[i];
+                field.setAccessible(true);
+                console.log('atjj field (depth ' + depth + '): ' + field.getName() + ' = ' + field.get(atjjObject));
+
+                if (field.getName() === 'setFuture') {
+                    var setFuture = field.get(atjjObject);
+                    if (setFuture && setFuture.$className) {
+                        console.log('setFuture details (depth ' + depth + '): ' + setFuture);
+                        var atjjClass = Java.use('atjj');
+                        if (setFuture.$className === 'atjj') {
+                            var innerAtjjObject = Java.cast(setFuture, atjjClass);
+                            printAtjjDetails(innerAtjjObject, depth + 1);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+function hook7() {
+    Java.perform(function () {
+        let kjg = Java.use("kjg");
+        kjg["$init"].overload('lmh', 'llg', 'java.lang.String', 'android.os.Bundle', 'gvf', 'int').implementation = function (lmhVar, llgVar, str, bundle, gvfVar, i) {
+            console.log(`kjg.$init is called: lmhVar=${lmhVar}, llgVar=${llgVar}, str=${str}, bundle=${bundle}, gvfVar=${gvfVar}, i=${i}`);
+            this["$init"](lmhVar, llgVar, str, bundle, gvfVar, i);
+        };
+    });
 }
 
 
@@ -465,9 +515,8 @@ function main() {
     // hook3();
     // hook4();
     // hook5();
-    hook6();
-    // hook7();
-    // hook8();
+    // hook6();
+    hook7();
 }
 
 

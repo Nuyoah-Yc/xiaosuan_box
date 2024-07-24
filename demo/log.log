@@ -1,0 +1,60 @@
+[message]    1
+[message]    1.1
+[string]     1.1.1     inapp:com.codeway.chatapp:askai.pro.lifetimeiap.t5 // skuType : sku
+[uint32]     1.1.2     11
+[uint32]     1.1.3     3
+[uint32]     1.2       1
+[string]     1.14      AbNbjn6qd8NV87Re/Gu8BaDG15I1ttYTPGQklCYCEKswhA2AYrbJgEaLxvr8PzAhsQYGGMuXkxbh/8kb2wySL7bDGg==  // skuOfferIdTokenList
+[message]    2
+[uint32]     2.1       17   // apiVersion
+[string]     2.2       com.codeway.chatapp
+[uint32]     2.3       483
+[string]     2.4       x8nBT8YV2SCT_oBw6_4z6w
+[message]    2.7
+[string]     2.7.1     skuDetailsTokens
+[string]     2.7.5     AEuhp4LX3-j6cA2mRphFDhE5WzzSeXl5Od3bbQC69WhFiWI5JrdgmqtP3VEq8NDNm78CQyyFB1VBsCk=  // skuDetailsTokens
+[message]    2.7
+[string]     2.7.1     proxyPackageVersion
+[string]     2.7.2     package not found // proxyPackageVersion
+[message]    2.7
+[string]     2.7.1     playBillingLibraryVersion
+[string]     2.7.2     6.1.0 // playBillingLibraryVersion
+[message]    2.7
+[string]     2.7.1     enablePendingPurchases
+[uint32]     2.7.3     1
+[message]    2.7
+[string]     2.7.1     proxyPackage
+[string]     2.7.2     io.flutter.plugins.inapppurchase // proxyPackage
+[uint32]     2.8       1
+[string]     2.9       com.android.vending
+[message]    2.15
+[message]    2.15.1
+[uint32]     2.15.1.1  1
+[uint32]     2.18      483
+[string]     5         CrsEOgV6aC1DTkACSLLYzSdS-gMaAjMzIgVIV01OQSjECTCMFT2uV91DRbo53UNKE2NvbS5hbmRyb2lkLnZlbmRpbmdSCDgzMDYxODEwWh0zMC42LjE4LTIxIFswXSBbUFJdIDQ1MDc5NTkxNGLmAgqPATj76aeHm7rumTFKBUhXTU5BUgdNTkEtTDI5WgdNTkEtTFg5YgZIVUFXRUlqS0hVQVdFSS9NTkEtTDI5L0hXTU5BOjEyL0hVQVdFSU1OQS1MMjkvMTA0LjAuMC4xMzZTUDQwQzQzMjp1c2VyL3JlbGVhc2Uta2V5c3oCMTKqAQZIVUFXRUmyAQd1bmtub3duEtEBCokBChNjb20uYW5kcm9pZC52ZW5kaW5nEgg4MzA2MTgxMBjFxueqiTIggN718oYyKlovZGF0YS9hcHAvfn5HNGtHN1pvT0xKXzVseUFsU1lxaGJ3PT0vY29tLmFuZHJvaWQudmVuZGluZy0zdlVjSmEwTHdCM0pjQVFDZUhRQlN3PT0vYmFzZS5hcGsYZCCA6N0NMgBAAUoDemhvWgt6aF9DTl8jSGFuc5IBAnpomgECQ06oAZHjyEiyARLkuK3lm73moIflh4bml7bpl7S4AQFyCWFtLWdvb2dsZXgBgAECsAEC4AGIBJACApgCkePISKICEuS4reWbveagh-WHhuaXtumXtMACAVoULTUyMjg4NzI0ODM4MzE2ODA3MjWaARd5b3VjaHVhbmcyNDAzQGdtYWlsLmNvbRKEAQp7aHR0cHM6Ly9wbGF5LmFwcC5nb28uZ2wvP2xpbms9aHR0cCUzQSUyRiUyRnVudXNlZC5nb29nbGUuY29tJmFwbj1jb20uYW5kcm9pZC52ZW5kaW5nJmFsPWdvb2dsZS1vcmNoZXN0cmF0aW9uJTNBJTJGJTJGcmV0dXJuGAEiAQIoAQ==
+[message]    8
+[uint32]     8.1       1
+[uint32]     8.5       1
+[uint32]     8.9       1
+[message]    8.26
+[uint64]     8.26.1    18446744073692815731
+[uint64]     8.26.2    18446744073698063604
+[uint64]     8.26.3    18446744073709505845
+[uint64]     8.26.4    18446744073709499241
+[uint64]     8.26.5    18446744073701864696
+[message]    12
+[uint32]     12.1      9
+[message]    19
+[fixed64]    19.13     6141019055806637162
+[fixed64]    19.15     7165350523450056563
+[fixed64]    19.12     7741182346142902369
+[string]     20        youchuang2403@gmail.com#CjgKMmluYXBwOmNvbS5jb2Rld2F5LmNoYXRhcHA6YXNrYWkucHJvLmxpZmV0aW1laWFwLnQ1EAsYAxgBIlxBYk5iam42cWQ4TlY4N1JlL0d1OEJhREcxNUkxdHRZVFBHUWtsQ1lDRUtzd2hBMkFZcmJKZ0VhTHh2cjhQekFoc1FZR0dNdVhreGJoLzhrYjJ3eVNMN2JER2c9PQ==#simId=ijdBtKH9Uys_faVppcaah_KT4nk#clientTheme=2#fingerprintValid=false#desiredAuthMethod=0#authFrequency=0#userHasFop=false#callingAppPackageName=com.codeway.chatapp#enablePendingPurchases=true
+[string]     22        nonce=dAGYMFcuFoq7Dd2_02wYrFVzST2vU4iaMKi-ZwWBpEjqXj14azCbKzhdvVQfVyUjeWcwFnEWG_JbKRa7mstmGfFp9bsOhNVqAJ8T2YE7erZaxe4eZdcZ49VQAPnEmXLUovahT3Fm7kdtQnPMcWWVfJNmPhafMEm8DM3X39ga2yEYZjjgbd25K07kzXsF_dEVKA-rvaSJKglGqvJJY6xEHTy5HxPlwuYl90BCki9LdXpxE0NTjpnQKZXiFfDEw8v36_BJ29B6osfVZ7SXUAFLPfOfWKDD8klncvbUVOZWzIPMRtOvIWVoN4EsjjEqvBpXQb4DZFbw-4cNj6dl3Ogqpw
+[uint32]     25        2
+[message]    31
+[uint32]     31.1      1720492650
+[uint32]     31.2      721000000
+
+
+
+BuyFlowParams(apiVersion=17, sku=askai.pro.lifetimeiap.t5, skuType=inapp, developerPayload=, sdkVersion=, needAuth=true, skuParams={skuDetailsTokens=[AEuhp4LX3-j6cA2mRphFDhE5WzzSeXl5Od3bbQC69WhFiWI5JrdgmqtP3VEq8NDNm78CQyyFB1VBsCk=], proxyPackageVersion=package not found, playBillingLibraryVersion=6.1.0, enablePendingPurchases=true, proxyPackage=io.flutter.plugins.inapppurchase}, skuSerializedDockIdList=null, skuOfferIdTokenList=[AbNbjn6qd8NV87Re/Gu8BaDG15I1ttYTPGQklCYCEKswhA2AYrbJgEaLxvr8PzAhsQYGGMuXkxbh/8kb2wySL7bDGg==], oldSkuPurchaseToken=null, oldSkuPurchaseId=null)
